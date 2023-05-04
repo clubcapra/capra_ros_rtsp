@@ -17,7 +17,7 @@ using namespace image2rtsp;
 
 void Image2RTSPNodelet::onInit() {
     string pipeline, mountpoint, bitrate, caps;
-    string pipeline_tail =  " key-int-max=30 ! video/x-h264, profile=baseline ! rtph264pay name=pay0 pt=96 )"; // Gets completed based on rosparams below
+    string pipeline_tail =  " ! h265parse ! rtph265pay name=pay0 pt=96 )"; // Gets completed based on rosparams below
 
     NODELET_DEBUG("Initializing image2rtsp nodelet...");
 
@@ -51,7 +51,7 @@ void Image2RTSPNodelet::onInit() {
         // uvc camera?
         if (stream["type"]=="cam")
         {
-            pipeline = "( " + static_cast<std::string>(stream["source"]) + " ! x264enc tune=zerolatency bitrate=" + bitrate + pipeline_tail;
+            pipeline = "( " + static_cast<std::string>(stream["source"]) + " ! omxh265enc bitrate=" + bitrate + pipeline_tail;
 
             rtsp_server_add_url(mountpoint.c_str(), pipeline.c_str(), NULL);
         }
@@ -65,7 +65,7 @@ void Image2RTSPNodelet::onInit() {
             caps = static_cast<std::string>(stream["caps"]);
 
             // Setup the full pipeline
-            pipeline = "( appsrc name=imagesrc do-timestamp=true min-latency=0 max-latency=0 max-bytes=1000 is-live=true ! videoconvert ! videoscale ! " + caps + " ! x264enc tune=zerolatency bitrate=" + bitrate + pipeline_tail;
+            pipeline = "( appsrc name=imagesrc do-timestamp=true min-latency=0 max-latency=0 max-bytes=1000 is-live=true ! videoconvert ! videoscale ! " + caps + " ! omxh265enc bitrate=" + bitrate + pipeline_tail;
 
             // Add the pipeline to the rtsp server
             rtsp_server_add_url(mountpoint.c_str(), pipeline.c_str(), (GstElement **)&(appsrc[mountpoint]));
@@ -110,7 +110,7 @@ GstCaps* Image2RTSPNodelet::gst_caps_new_from_image(const sensor_msgs::Image::Co
             "format", G_TYPE_STRING, format->second.c_str(),
             "width", G_TYPE_INT, msg->width,
             "height", G_TYPE_INT, msg->height,
-            "framerate", GST_TYPE_FRACTION, 10, 1,
+            "framerate", GST_TYPE_FRACTION, 30, 1,
             nullptr);
 }
 
