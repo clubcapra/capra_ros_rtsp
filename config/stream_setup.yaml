@@ -11,7 +11,7 @@ streams: # Cannot rename - must leave this as is.
     type: topic
     source: /markhor/camera_01/usb_cam/image_raw
     mountpoint: /camera01
-    caps: video/x-raw,framerate=30/1,width=640,height=480
+    caps: video/x-raw,width=640,height=480
     bitrate: 800000
   stream-camera02:
     type: topic
