@@ -19,6 +19,12 @@ streams: # Cannot rename - must leave this as is.
     mountpoint: /camera02
     caps: video/x-raw,width=640,height=480
     bitrate: 800000
+  stream-camera02:
+    type: topic
+    source: /markhor/camera_03/usb_cam/image_raw
+    mountpoint: /camera03
+    caps: video/x-raw,width=640,height=480
+    bitrate: 800000
   stream-zed:
     type: topic
     source: /zed2i/zed_node/left_raw/image_raw_color
