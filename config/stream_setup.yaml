@@ -1,12 +1,6 @@
 # Set up your streams to rtsp here.
 port: "8554"
 streams: # Cannot rename - must leave this as is.
-  stream-camera00:
-    type: topic
-    source: /markhor/camera_00/usb_cam/image_raw
-    mountpoint: /camera00
-    caps: video/x-raw,width=640,height=480
-    bitrate: 800000
   stream-camera01:
     type: topic
     source: /markhor/camera_01/usb_cam/image_raw
