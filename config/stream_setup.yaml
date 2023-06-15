@@ -1,17 +1,28 @@
 # Set up your streams to rtsp here.
 port: "8554"
 streams: # Cannot rename - must leave this as is.
-
-  stream-x:
-    type: cam
-    source: "v4l2src device=/dev/video0 ! videoconvert ! videoscale ! video/x-raw,framerate=15/1,width=1280,height=720"
-    mountpoint: /front
-    bitrate: 500
-
-  stream-yay:
+  stream-camera01:
     type: topic
-    source: /usb_cam1/image_raw
-    mountpoint: /back
-    caps: video/x-raw,framerate=10/1,width=640,height=480
-    bitrate: 500
+    source: /markhor/camera_01/usb_cam/image_raw
+    mountpoint: /camera01
+    caps: video/x-raw,width=640,height=480
+    bitrate: 800000
+  stream-camera02:
+    type: topic
+    source: /markhor/camera_02/usb_cam/image_raw
+    mountpoint: /camera02
+    caps: video/x-raw,width=640,height=480
+    bitrate: 800000
+  stream-camera02:
+    type: topic
+    source: /markhor/camera_03/usb_cam/image_raw
+    mountpoint: /camera03
+    caps: video/x-raw,width=640,height=480
+    bitrate: 800000
+  stream-zed:
+    type: topic
+    source: /zed2i/zed_node/left_raw/image_raw_color
+    mountpoint: /zed
+    caps: video/x-raw,width=1280,height=720
+    bitrate: 800000
 
